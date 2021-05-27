@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class levelOrderTraversal  {
+public class Main {
     public static class Node {
         int data;
         Node left;
@@ -79,38 +79,23 @@ public class levelOrderTraversal  {
         display(node.right);
     }
 
-    public static void levelOrder(Node node) {
+    public static Node createLeftCloneTree(Node node){
         // write your code here
-        Queue<Node> mq=new ArrayDeque<>();
-        mq.add(node);
 
-        while(mq.size()>0)
+
+        if(node==null)
         {
-            //this count if for adding childrens of all the existing nodes in the queue and to print them
-            int count=mq.size();
-            for(int i=0;i<count;i++)
-            {
-                node=mq.remove();
-                System.out.print(node.data+" ");
-
-                if(node.left!=null)
-                {
-                    mq.add(node.left);
-                }
-                if(node.right!=null)
-                {
-                    mq.add(node.right);
-                }
-
-            }
-            System.out.println();
-
+            return null;
         }
 
+        Node lcr=createLeftCloneTree(node.left);
+        Node rcr=createLeftCloneTree(node.right);
+        Node newnode=new Node(node.data,lcr,null);
+        node.left=newnode;
+        node.right=rcr;
 
 
-
-
+        return node;
     }
 
     public static void main(String[] args) throws Exception {
@@ -127,7 +112,8 @@ public class levelOrderTraversal  {
         }
 
         Node root = construct(arr);
-        levelOrder(root);
+        root = createLeftCloneTree(root);
+        display(root);
     }
 
 }
