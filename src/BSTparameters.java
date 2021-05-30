@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class transformToLeftClonedTree {
+public class BSTparameters {
     public static class Node {
         int data;
         Node left;
@@ -79,23 +79,71 @@ public class transformToLeftClonedTree {
         display(node.right);
     }
 
-    public static Node createLeftCloneTree(Node node){
+    public static int size(Node node) {
         // write your code here
+        if(node==null)
+            return 0;
+        int lc=size(node.left);
+        int rc=size(node.right);
+        int tc=lc+rc+1;
+        return tc;
+    }
 
-
+    public static int sum(Node node) {
+        // write your code here
         if(node==null)
         {
-            return null;
+            return 0;
+        }
+        int lc=sum(node.left);
+        int rc=sum(node.right);
+        int tc=lc+rc+node.data;
+
+        return tc;
+    }
+
+    public static int max(Node node) {
+        // write your code here
+
+        if(node.right!=null)
+            return max(node.right);
+        else
+            return node.data;
+
+
+
+    }
+
+    public static int min(Node node) {
+        // write your code here
+
+        if(node.left!=null)
+            return min(node.left);
+        else
+            return node.data;
+    }
+
+    public static boolean find(Node node, int data){
+        // write your code here
+        if(node==null)
+        {
+            return false;
+        }
+        if(data>node.data)
+        {
+            return find(node.right,data);
+        }
+        else if(data<node.data)
+        {
+            return find(node.left,data);
+        }
+        else
+        {
+            return true;
         }
 
-        Node lcr=createLeftCloneTree(node.left);
-        Node rcr=createLeftCloneTree(node.right);
-        Node newnode=new Node(node.data,lcr,null);
-        node.left=newnode;
-        node.right=rcr;
 
 
-        return node;
     }
 
     public static void main(String[] args) throws Exception {
@@ -111,9 +159,21 @@ public class transformToLeftClonedTree {
             }
         }
 
+        int data = Integer.parseInt(br.readLine());
+
         Node root = construct(arr);
-        root = createLeftCloneTree(root);
-        display(root);
+
+        int size = size(root);
+        int sum = sum(root);
+        int max = max(root);
+        int min = min(root);
+        boolean found = find(root, data);
+
+        System.out.println(size);
+        System.out.println(sum);
+        System.out.println(max);
+        System.out.println(min);
+        System.out.println(found);
     }
 
 }

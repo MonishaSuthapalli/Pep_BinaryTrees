@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class transformToLeftClonedTree {
+public class lcaBST {
     public static class Node {
         int data;
         Node left;
@@ -79,23 +79,22 @@ public class transformToLeftClonedTree {
         display(node.right);
     }
 
-    public static Node createLeftCloneTree(Node node){
+    public static int lca(Node node, int d1, int d2) {
         // write your code here
-
-
-        if(node==null)
+        if(d1<node.data&&d2<node.data)
         {
-            return null;
+            return lca(node.left,d1,d2);
+        }
+        else if(d1>node.data&&d2>node.data)
+        {
+            return lca(node.right,d1,d2);
+        }
+        else
+        {
+            return node.data;
         }
 
-        Node lcr=createLeftCloneTree(node.left);
-        Node rcr=createLeftCloneTree(node.right);
-        Node newnode=new Node(node.data,lcr,null);
-        node.left=newnode;
-        node.right=rcr;
 
-
-        return node;
     }
 
     public static void main(String[] args) throws Exception {
@@ -111,9 +110,12 @@ public class transformToLeftClonedTree {
             }
         }
 
+        int d1 = Integer.parseInt(br.readLine());
+        int d2 = Integer.parseInt(br.readLine());
+
         Node root = construct(arr);
-        root = createLeftCloneTree(root);
-        display(root);
+        int lca = lca(root, d1, d2);
+        System.out.println(lca);
     }
 
 }

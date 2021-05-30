@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class transformToLeftClonedTree {
+public class printSingleNodes {
     public static class Node {
         int data;
         Node left;
@@ -79,23 +79,22 @@ public class transformToLeftClonedTree {
         display(node.right);
     }
 
-    public static Node createLeftCloneTree(Node node){
+    public static void printSingleChildNodes(Node node, Node parent){
         // write your code here
-
-
         if(node==null)
+            return;
+
+        if(parent!=null&&parent.left==node&&parent.right==null)
         {
-            return null;
+            System.out.println(node.data);
         }
+        else if(parent!=null&&parent.left==null&&parent.right==node)
+        {
+            System.out.println(node.data);
+        }
+        printSingleChildNodes(node.left,node);
+        printSingleChildNodes(node.right,node);
 
-        Node lcr=createLeftCloneTree(node.left);
-        Node rcr=createLeftCloneTree(node.right);
-        Node newnode=new Node(node.data,lcr,null);
-        node.left=newnode;
-        node.right=rcr;
-
-
-        return node;
     }
 
     public static void main(String[] args) throws Exception {
@@ -112,8 +111,7 @@ public class transformToLeftClonedTree {
         }
 
         Node root = construct(arr);
-        root = createLeftCloneTree(root);
-        display(root);
+        printSingleChildNodes(root, null);
     }
 
 }

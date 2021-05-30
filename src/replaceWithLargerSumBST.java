@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class transformToLeftClonedTree {
+public class replaceWithLargerSumBST {
     public static class Node {
         int data;
         Node left;
@@ -79,23 +79,19 @@ public class transformToLeftClonedTree {
         display(node.right);
     }
 
-    public static Node createLeftCloneTree(Node node){
+    static int sum = 0;
+    public static void rwsol(Node node){
         // write your code here
-
-
         if(node==null)
         {
-            return null;
+            return;
         }
+        rwsol(node.right);
+        int od=node.data;
+        node.data=sum;
+        sum+=od;
+        rwsol(node.left);
 
-        Node lcr=createLeftCloneTree(node.left);
-        Node rcr=createLeftCloneTree(node.right);
-        Node newnode=new Node(node.data,lcr,null);
-        node.left=newnode;
-        node.right=rcr;
-
-
-        return node;
     }
 
     public static void main(String[] args) throws Exception {
@@ -112,7 +108,8 @@ public class transformToLeftClonedTree {
         }
 
         Node root = construct(arr);
-        root = createLeftCloneTree(root);
+        rwsol(root);
+
         display(root);
     }
 
